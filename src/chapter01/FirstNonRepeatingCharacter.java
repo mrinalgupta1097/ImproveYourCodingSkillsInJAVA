@@ -35,7 +35,7 @@ public class FirstNonRepeatingCharacter {
     LinkedHashMap<Integer, Long> mapCount =
         input
             .codePoints()
-            .mapToObj(cp -> cp)
+            .boxed()
             .collect(
                 Collectors.groupingBy(
                     Function.identity(), LinkedHashMap::new, Collectors.counting()));
@@ -44,11 +44,16 @@ public class FirstNonRepeatingCharacter {
             .filter(e -> e.getValue() == 1L)
             .map(Map.Entry::getKey)
             .findFirst()
-            .orElse(Integer.valueOf(Character.MIN_VALUE));
+            .orElse((int) Character.MIN_VALUE);
     return String.valueOf(Character.toChars(result));
   }
 
   public static void main(String[] args) {
-    System.out.println(findFirstUniqueMethod3("reer"));
+    System.out.println("-----Method 1 : Without data structure-----");
+    System.out.println(firstUniqueMethod1("raeer"));
+    System.out.println("-----Method 2 : With data structure-----");
+    System.out.println(firstUniqueMethod2("raeer"));
+    System.out.println("-----Method 3 : With functional programming(Java 8)-----");
+    System.out.println(findFirstUniqueMethod3("raeer"));
   }
 }
